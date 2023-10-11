@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="server.js"></script>
+    <title>Photo Upload</title>
+
+    <style>
+        /* Style for the photo gallery grid */
+        #photoGallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Style for individual photos */
+        #photoGallery img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload and Display Photos</h1>
+
+    <!-- Photo Upload Form -->
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="photo" id="photoInput" accept="image/*" required>
+        <button type="submit">Upload Photo</button>
+    </form>
+
+    <!-- Display Uploaded Photos -->
+    <div id="photoGallery"></div>
+
+    <script>
+        // Function to handle photo upload
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const photoInput = document.getElementById('photoInput');
+
+            // Check if a file is selected
+            if (photoInput.files.length === 0) {
+                alert('Please select a photo to upload.');
+                return;
+            }
+
+            // Display the uploaded photo
+            const photoGallery = document.getElementById('photoGallery');
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(photoInput.files[0]);
+            img.alt = 'Uploaded Photo';
+            photoGallery.appendChild(img);
+
+            // You can also send the formData to a server for further processing (e.g., saving to a database).
+            // Example AJAX request:
+            // fetch('/upload', {
+            //     method: 'POST',
+            //     body: formData,
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     // Handle the server's response if needed
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            // });
+        });
+    </script>
+</body>
+</html>
